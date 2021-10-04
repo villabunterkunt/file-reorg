@@ -11,18 +11,33 @@ files_list = os.listdir(path)  # take all the filename as a list
 
 unique = dict()  # making a dictionary named unique
 
-for file in os.listdir(path):   # looping over the file list
 
-    file_name = Path(os.path.join(path, file))  # make a absolute file name using os.path.join function
-    if file_name.is_file():  # checking the the the item is file or not
-
+# Set the directory you want to start from
+rootDir = path
+for dirName, subdirList, fileList in os.walk(rootDir):
+    print('Found directory: %s' % dirName)
+    for fname in fileList:
+        file_name = os.path.join(dirName,fname)
+        print('\t%s' % file_name)
         fileHash = hashlib.md5(open(file_name, 'rb').read()).hexdigest()
         if fileHash not in unique:
             unique[fileHash] = file_name
-
         else:
-             print(file_name)
-             os.remove(file_name)
-        print(f" File wird gelöscht {file_name}")
-    else:
-        print("Path not exits")
+            print(file_name, 'wuerde geloscht werden')
+            os.remove(file_name)
+
+
+#for file in os.listdir(path):   # looping over the file list
+
+#    file_name = Path(os.path.join(path, file))  # make a absolute file name using os.path.join function
+#    if file_name.is_file():  # checking the the the item is file or not
+#        fileHash = hashlib.md5(open(file_name, 'rb').read()).hexdigest()
+#        if fileHash not in unique:
+#            unique[fileHash] = file_name
+
+#        else:
+#             print(file_name)
+#             os.remove(file_name)
+#        print(f" File will be deleted {file_name}")
+#    else:
+#        print("Path not exits")
